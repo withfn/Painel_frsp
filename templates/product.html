@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="col-8 m-auto">
+        <div class="card m-4 p-4">
+            {% set messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    {% for msg in messages %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <p class="h3">Novo Produto</p>
+            <form method="POST" action="{{ url_for('save_product') }}" name="new_product" class="d-flex flex-column">
+                <label for="name_product">Nome</label>
+                <input class="mb-3 col-12 form-control" type="text" name="name_product" required>
+                <label for="manufacture">Fabricação</label>
+                <input class="mb-3 col-12 form-control" type="text" name="manufacture" required>
+                <label for="serial">Serial</label>
+                <input class="mb-3 col-12 form-control" type="text" name="serial" required>
+                <label for="status">Status</label>
+                <select class="mb-3 col-12 form-control" name="status" aria-controls="table">
+                    <option value="1">Ativo</option>
+                    <option value="2">Em Manutenção</option>
+                    <option value="3">Descarte</option>
+                    <option value="4">Backup</option>
+                    <option value="5">Inativo</option>
+                </select>
+                <button class="btn btn-success" type="submit">Adicionar</button>
+            </form>
+        </div>
+    </main>
+{% endblock %}

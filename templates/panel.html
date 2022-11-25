@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="col">
+        <div class="card radius-10 mt-4">
+            <div id="navbar-main" class="d-flex flex-row justify-content-between mt-3">
+                <form style="visibility:hidden;" method="POST" action="{{ url_for('get_panel') }}" name="num_registers" class="d-flex align-items-baseline">
+                    <label class="col-7">Produtos por página: </label>
+                        <select name="table_length"
+                            aria-controls="table" class="form-control mr-2 ml-n3">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <button class="btn btn-outline-dark" type="submit">Aplicar</button>
+                    </form>
+
+                <form class="form-inline mr-3" method="post" action="{{ url_for('search_product') }}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar produto" name="search">
+                    <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                    <a class="btn btn-outline-success ml-3" href="{{ url_for('add_product')}}" title="Adicionar novo produto">+</a>
+                </form>
+            </div>
+
+            <table id="table" class="table table-striped dataTable no-footer mt-3" role="grid"
+                aria-describedby="table_info">
+                <thead>
+                    <tr class="text-center" role="row">
+                        <th class="sorting_desc" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-sort="descending" aria-label="Id: ative para classificar a coluna em ordem crescente">
+                            Id</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="2"
+                            aria-label="Login: ative para classificar a coluna em ordem crescente">Nome</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-label="Senha: ative para classificar a coluna em ordem crescente">Fabricação</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-label="Adicionado: ative para classificar a coluna em ordem crescente">Serial</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-label="Vencimento: ative para classificar a coluna em ordem crescente">Status</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-label="Revendedor: ative para classificar a coluna em ordem crescente">Data Mod</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-label="Conexões: ative para classificar a coluna em ordem crescente">Data Criação</th>
+                        <th class="sorting" tabindex="0" aria-controls="table" rowspan="1" colspan="1"
+                            aria-label="Ações: ative para classificar a coluna em ordem crescente">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for row in records %}
+                        <tr>
+                            <td>{{row[0]}}</td>
+                            <td colspan="2">{{row[2]}}</td>
+                            <td>{{row[15]}}</td>
+                            <td>{{row[9]}}</td>
+                            <td>{{row[22]}}</td>
+                            <td>{{row[3]}}</td>
+                            <td>{{row[25]}}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('edit_product') }}">
+                                    <input type="hidden" name="id" value="{{ row[0] }}">
+                                    <button type="submit" class="btn btn-link">Editar</button>
+                                </form>
+                                
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-center" id="table_paginate">
+                {{pagination.links}}
+            </div>
+        </div>
+    </main>
+{% endblock %}
